@@ -24,4 +24,8 @@ fn fizzbuzz(n int) []string {
 s := os.args[1] or { '' }
 n := strconv.atoi(s) or { default_n }
 
-println(fizzbuzz(n))
+// println(fizzbuzz(n))
+for i, v in fizzbuzz(n) {
+	// left-pad 4 spaces
+	println('${i+1:4}. $v')
+}
