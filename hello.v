@@ -1,9 +1,17 @@
-import rand
-
-println('你好世界！')
-
-for i := 0; i < 10; i++ {
-  n := rand.u32_in_range(0x4e00, 0x9fff + 1)
-  c := utf32_to_str(n)
-  println(c)
+const dict = map{
+	'hello': '你好'
+	'world': '世界'
+	'goodbye': '再见'
+	'universe': '宇宙'
 }
+
+fn translate(s string) string {
+	return
+		s.fields()
+		.map(dict[it.to_lower()])
+		.join('')
+}
+
+println(translate('Hello world'))
+println(translate('Goodbye Universe'))
+println(translate('Greetings CATERPILLAR'))
