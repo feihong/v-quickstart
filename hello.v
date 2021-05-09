@@ -1,4 +1,4 @@
-import encoding.utf8 { get_uchar }
+import encoding.utf8
 
 const dict = map{
 	'hello': '你好'
@@ -7,14 +7,26 @@ const dict = map{
 	'universe': '宇宙'
 }
 
+fn ends_with_hanzi(s string) bool {
+	us := s.ustring()
+	last := us.at(us.len - 1)
+	code := utf8.get_uchar(last, 0)
+	// using match with range produces warning
+	return if code >= 0x4e00 && code <= 0x9fff { true } else { false }
+}
+
 fn translate(s string) string {
 	return
 		s.fields()
 		.map(fn (s string) string {
-			new_s := s.to_lower()
-			return dict[new_s] or { new_s }
+			mut new_s := s.to_lower()
+			new_s = dict[new_s] or { new_s }
+			if !ends_with_hanzi(new_s) {
+				new_s = new_s + ' '
+			}
+			return new_s
 		})
-		.join(' ')
+		.join('')
 }
 
 println(translate('Hello world'))
